@@ -7,12 +7,14 @@ defmodule Mailer.Application do
 
   @impl true
   def start(_type, _args) do
+    Mailer.GmailOAuth2.start_dets()
+
     children = [
       MailerWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:mailer, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Mailer.PubSub},
       # Start the Finch HTTP client for sending emails
-      {Finch, name: Mailer.Finch},
+      # {Finch, name: Mailer.Finch},
       # Start a worker by calling: Mailer.Worker.start_link(arg)
       # {Mailer.Worker, arg},
       # Start to serve requests, typically the last entry

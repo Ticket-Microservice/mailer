@@ -9,6 +9,16 @@ defmodule MailerWeb.Router do
     pipe_through :api
   end
 
+  scope "/api", MailerWeb do
+    pipe_through :api
+
+    scope "/public" do
+      post "/send_email", Controller.Email, :welcome_email
+      get "/get_consent_link", Controller.Email, :get_consent_link
+      forward "/swoosh", Plug.Swoosh.MailboxPreview
+    end
+  end
+
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:mailer, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put

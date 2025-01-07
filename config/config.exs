@@ -21,6 +21,19 @@ config :mailer, MailerWeb.Endpoint,
   pubsub_server: Mailer.PubSub,
   live_view: [signing_salt: "ZLYIUQjo"]
 
+config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+
+config :mailer, Mailer.Mailer,
+  adapter: Swoosh.Adapters.Gmail
+
+config :mailer, Mailer.GmailOAuth2,
+  client_id: System.get_env("GMAIL_CLIENT_ID"),
+  client_secret: System.get_env("GMAIL_CLIENT_SECRET"),
+  redirect_uri: "http://localhost:4004", # Replace with your redirect URI
+  token_url: "https://oauth2.googleapis.com/token",
+  auth_url: "https://accounts.google.com/o/oauth2/auth",
+  refresh_token: System.get_env("GMAIL_REFRESH_TOKEN"),
+  sender_email: System.get_env("GMAIL_SENDER_EMAIL")
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
@@ -28,7 +41,7 @@ config :mailer, MailerWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :mailer, Mailer.Mailer, adapter: Swoosh.Adapters.Local
+# config :mailer, Mailer.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,

@@ -1,6 +1,5 @@
 FROM elixir:alpine
 
-RUN apk add --no-cache shadow
 RUN apk update && apk add inotify-tools
 RUN apk add nano
 RUN apk add --update alpine-sdk
