@@ -2,18 +2,20 @@ services:
   api_gateway:
       # Build parameters for the container
       build: .
-      image: aljovanmp/ticket_be_api_gateway:latest
-      container_name: ticket_api_gateway
+      image: aljovanmp/ticket_be_api_mailer:latest
+      container_name: ticket_api_mailer
       ports:
         # Maps ports to be accessed by the app outside of the container
-        - "4002:4000"
+        - "4004:4000"
       environment:
         MIX_ENV: "dev"
         SECRET_KEY_BASE: 
-        AUTH_SERVICE: 
+        GMAIL_CLIENT_ID: 
+        GMAIL_CLIENT_SECRET: 
+        GMAIL_REFRESH_TOKEN: 
+
       networks:
         - shared_network
-
       develop:
         watch:
           - action: sync
@@ -22,6 +24,9 @@ services:
           - action: sync+restart
             path: ./config
             target: /app/config
+          - action: sync+restart
+            path: ./lib/gateway/grpc_client.ex
+            target: /app/lib/gateway/grpc_client.ex
           - action: rebuild
             path: mix.exs
 

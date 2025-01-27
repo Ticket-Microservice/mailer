@@ -32,9 +32,9 @@ config :mailer, Mailer.GmailOAuth2,
   redirect_uri: "http://localhost:4004", # Replace with your redirect URI
   token_url: "https://oauth2.googleapis.com/token",
   auth_url: "https://accounts.google.com/o/oauth2/auth",
-  refresh_token: System.get_env("GMAIL_REFRESH_TOKEN"),
-  sender_email: System.get_env("GMAIL_SENDER_EMAIL")
-# Configures the mailer
+  refresh_token: System.get_env("GMAIL_REFRESH_TOKEN")
+
+  # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
 # locally. You can see the emails in your browser, at "/dev/mailbox".
