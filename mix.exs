@@ -45,7 +45,8 @@ defmodule Mailer.MixProject do
       {:oauth2, "~> 2.0"},
       {:tesla, "~> 1.4"},
       {:mail, ">= 0.0.0"},
-      {:hackney, "~> 1.20"}
+      {:hackney, "~> 1.20"},
+      {:broadway_rabbitmq, "~> 0.8.2"}
       # {:grpc, "~> 0.9"},
       # {:protobuf, "~> 0.13.0"},
       # {:grpc_reflection, "~> 0.1.0"}

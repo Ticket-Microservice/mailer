@@ -11,7 +11,7 @@ defmodule Mailer.RabbitmqSetup do
     {:ok, chan} = Channel.open(conn)
 
     # Declare the Dead Letter Exchange (DLX)
-    Exchange.declare(chan, "email_dlx", :direct, durable: true)
+    Exchange.declare(chan, "email_dlx", :direct)
 
     # Declare the main queue with a DLX
     Queue.declare(chan, "email",
@@ -34,9 +34,10 @@ defmodule Mailer.RabbitmqSetup do
     # Declare the Dead Letter Queue (DLQ)
     Queue.declare(chan, "email_dlq", durable: true)
 
-    Queue.bind(chan, "email_retry", "email_dlx", routing_key: "retry")
-    Queue.bind(chan, "email_dlq", "email_dlx", routing_key: "dlq")
     # Bind DLQ to DLX
+    Queue.bind(chan, "email_dlq", "email_dlx", routing_key: "dlq")
+
+    Queue.bind(chan, "email", "email_dlx", routing_key: "send_email")
 
     # Close the connection
     Channel.close(chan)

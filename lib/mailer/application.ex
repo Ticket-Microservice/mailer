@@ -4,10 +4,15 @@ defmodule Mailer.Application do
   @moduledoc false
 
   use Application
+  alias Mailer.RabbitmqSetup
 
   @impl true
   def start(_type, _args) do
     Mailer.GmailOAuth2.start_dets()
+    case RabbitmqSetup.setup_queues do
+      :ok -> :ok
+      _ -> IO.inspect("failed to setup email queue")
+    end
 
     children = [
       MailerWeb.Telemetry,
@@ -18,7 +23,8 @@ defmodule Mailer.Application do
       # Start a worker by calling: Mailer.Worker.start_link(arg)
       # {Mailer.Worker, arg},
       # Start to serve requests, typically the last entry
-      MailerWeb.Endpoint
+      MailerWeb.Endpoint,
+      {Mailer.BroadwayEmailClient, []}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
