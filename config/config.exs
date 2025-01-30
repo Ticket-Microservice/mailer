@@ -34,6 +34,10 @@ config :mailer, Mailer.GmailOAuth2,
   auth_url: "https://accounts.google.com/o/oauth2/auth",
   refresh_token: System.get_env("GMAIL_REFRESH_TOKEN")
 
+config :mailer, Mailer.BroadwayEmailClient,
+  rabbitmq_url: System.get_env("RABBITMQ_URL"),
+  rabbitmq_port: System.get_env("RABBITMQ_PORT")
+
   # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
