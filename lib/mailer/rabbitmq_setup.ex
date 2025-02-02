@@ -38,6 +38,7 @@ defmodule Mailer.RabbitmqSetup do
     Queue.bind(chan, "email_dlq", "email_dlx", routing_key: "dlq")
 
     Queue.bind(chan, "email", "email_dlx", routing_key: "send_email")
+    Queue.bind(chan, "email_retry", "email_dlx", routing_key: "retry")
 
     # Close the connection
     Channel.close(chan)
